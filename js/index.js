@@ -166,7 +166,7 @@ const app = Vue.createApp({
       }
       this.$refs.productModal.getProduct(productId);
     },
-    createOrder() {
+    createOrder() {      
       this.isLoading = true;
       axios.post(`${apiUrl}api/${apiPath}/order`, { data: this.form })
         .then((res) => {
@@ -176,7 +176,7 @@ const app = Vue.createApp({
               bg: 'bg-success',
             };
             this.showToast(message);
-            this.resetOrderForm();
+            this.$refs.form.resetForm();
             this.getCarts();
           } else {
             const message = {
@@ -195,13 +195,6 @@ const app = Vue.createApp({
           this.showToast(message);
           this.isLoading = false;
         })
-    },
-    resetOrderForm() {
-      this.form.user.name = '';
-      this.form.user.email = '';
-      this.form.user.tel = '';
-      this.form.user.address = '';
-      this.form.message = '';
     },
     toggleLoading(val) {
       this.isLoading = val;
