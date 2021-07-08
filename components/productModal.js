@@ -53,7 +53,7 @@ export default {
                   </div>
                   <div class="col-6">
                     <div class="d-grid gap-2">
-                      <button class="btn btn-dark" type="button" @click.prevent="addToCart">加入購物車</button>
+                      <button class="btn btn-dark" type="button" @click.prevent="$emit('addToCart', product, qty)">加入購物車</button>
                     </div>
                   </div>
                 </div>
@@ -108,9 +108,6 @@ export default {
         return;
       }
       this.qty = num;
-    },
-    addToCart() {
-      this.$emit('addToCart', this.product, this.qty);
     },
   },
   mounted() {
