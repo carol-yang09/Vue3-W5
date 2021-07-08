@@ -1,5 +1,6 @@
 import Loading from '../components/loading.js';
 import Toast from '../components/toast.js';
+import productModal from '../components/productModal.js';
 import DelCartModal from '../components/delCartModal.js';
 
 const apiUrl = 'https://vue3-course-api.hexschool.io/';
@@ -25,6 +26,7 @@ const app = Vue.createApp({
         message: '',
       },
       tempCart: {},
+      tempProduct: {},
     };
   },
   methods: {
@@ -56,7 +58,6 @@ const app = Vue.createApp({
       this.isLoading = true;
       axios.get(`${apiUrl}api/${apiPath}/cart`)
         .then((res) => {
-          console.log(res);
           if (res.data.success) {
             this.carts = res.data.data;
           } else {
@@ -77,9 +78,9 @@ const app = Vue.createApp({
           this.isLoading = false;
         })
     },
-    addToCart(cart, qty = 1) {
+    addToCart(item, qty = 1) {
       const data = {
-        product_id: cart.id,
+        product_id: item.id,
         qty, 
       }
       this.isLoading = true;
@@ -87,7 +88,7 @@ const app = Vue.createApp({
         .then((res) => {
           if (res.data.success) {
             const message = {
-              text: `已將 ${cart.title} 加入購物車`,
+              text: `已將 ${item.title} 加入購物車`,
               bg: 'bg-success',
             };
             this.getCarts();
@@ -159,6 +160,12 @@ const app = Vue.createApp({
       }
       this.$refs.delCartModal.delCartModal.show();
     },
+    showProductModal(e, productId) {
+      if (e.target.nodeName == 'A' || e.target.nodeName == 'SPAN') {
+        return;
+      }
+      this.$refs.productModal.getProduct(productId);
+    },
     createOrder() {
       this.isLoading = true;
       axios.post(`${apiUrl}api/${apiPath}/order`, { data: this.form })
@@ -211,6 +218,7 @@ const app = Vue.createApp({
   components: {
     Loading,
     Toast,
+    productModal,
     DelCartModal,
   },
   mounted() {

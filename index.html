@@ -17,7 +17,7 @@
     <div class="container py-5">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-5 g-2 mb-5">
         <div class="col" v-for="(product, index) in products" :key="index">
-          <div class="card h-100 custom-card">
+          <div class="card h-100 custom-card" @click.prevent="showProductModal($event, product.id)">
             <div class="card-img" :style="{backgroundImage: 'url(' +  product.imageUrl + ')'}"></div>
             <div class="card-body">
               <h5 class="card-title mb-3 text-center fw-bold">{{ product.title }}</h5>
@@ -132,6 +132,8 @@
     </div>
 
     <del-cart-modal ref="delCartModal" :temp-cart="tempCart" :is-loading="isLoading" @show-toast="showToast" @toggle-loading="toggleLoading" @get-carts="getCarts"></del-cart-modal>
+
+    <product-modal ref="productModal" :is-loading="isLoading" @show-toast="showToast" @toggle-loading="toggleLoading" @add-to-cart="addToCart"></product-modal>
 
     <toast ref="toastMessage" :message="message"></toast>
   </div>
